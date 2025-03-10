@@ -97,6 +97,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -138,3 +142,7 @@ EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
