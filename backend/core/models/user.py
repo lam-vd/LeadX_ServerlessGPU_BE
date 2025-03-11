@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+import uuid
+import random
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -24,13 +26,15 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True, unique=False)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     billing_address = models.TextField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    activation_code = models.CharField(max_length=6, blank=True, null=True)
+    activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -39,3 +43,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    def generate_activation_code(self):
+        self.activation_code = f"{random.randint(100000, 999999)}"
+        self.save()
+
+    def generate_activation_token(self):
+        self.activation_token = uuid.uuid4()
+        self.save()
+
+    def ensure_activation_token_and_code(self):
+        if not self.activation_token:
+            self.generate_activation_token()
+        if not self.activation_code:
+            self.generate_activation_code()

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from core.models.user import User
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from core.utils.email import send_activation_email
 
 class CustomRegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
@@ -29,6 +30,9 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         user.set_password(self.cleaned_data["password"])
         user.save()
 
+        user.generate_activation_code()
+        user.generate_activation_token()
+        send_activation_email(user)
         setup_user_email(request, user, [])
         return user
 
