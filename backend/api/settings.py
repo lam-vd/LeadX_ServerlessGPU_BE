@@ -34,16 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework.authtoken",
-    "dj_rest_auth",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
-    "dj_rest_auth.registration",
-    "social_django",
     "core",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -126,15 +117,3 @@ STATIC_URL = "/api_static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/api_media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your-client-id>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your-client-secret>'
-
-
-EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend') 
-EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com') 
-EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)  
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  
