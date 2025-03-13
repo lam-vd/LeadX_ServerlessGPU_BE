@@ -1,5 +1,6 @@
 ERROR_MESSAGES = {
     'invalid_token': 'Invalid or expired token.',
+    'account_already_active': 'Account is already active.',
     'validation_error': 'Validation error.',
     'password_too_short': "Password is too short. Please enter at least 8 characters.",
     'password_too_long': "Password is too long. Please enter no more than 30 characters.",

@@ -1,13 +1,19 @@
-from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from core.messages import ERROR_MESSAGES, SUCCESS_MESSAGES
-from core.serializers.activation import ActivationSerializer
 
-activation_swagger_schema = swagger_auto_schema(
-    operation_summary="Activate User Account",
-    operation_description="Activates a user account using the provided token.",
-    request_body=ActivationSerializer,
-    responses={
+activation_swagger_schema = {
+    "operation_summary": "Activate User Account",
+    "operation_description": "Activates a user account using the provided token.",
+    "manual_parameters": [
+        openapi.Parameter(
+            name="token",
+            in_=openapi.IN_QUERY,
+            description="Activation token",
+            type=openapi.TYPE_STRING,
+            required=True,
+        )
+    ],
+    "responses": {
         200: openapi.Response(
             description=SUCCESS_MESSAGES['account_activated'],
             examples={
@@ -23,4 +29,4 @@ activation_swagger_schema = swagger_auto_schema(
             },
         ),
     },
-)
+}

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "social_django",
     "core",
     "drf_yasg",
+    "corsheaders",
 ]
 
 SITE_ID = 1
@@ -52,6 +53,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -67,7 +69,9 @@ ROOT_URLCONF = "api.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, 'core', 'utils', 'email', 'templates'),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -166,3 +170,4 @@ EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+REACT_APP_API_URL=os.environ.get("REACT_APP_API_URL")

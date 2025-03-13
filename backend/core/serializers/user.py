@@ -1,8 +1,9 @@
+from django.db import transaction
 from rest_framework import serializers
 from core.models.user import User
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
-from core.utils.email import send_activation_email
+from core.utils.email.activation_email import send_activation_email
 from core.validators.username import validate_username, MAX_USERNAME_LENGTH
 from core.validators.email import validate_email, MAX_EMAIL_LENGTH
 from core.validators.password import validate_password
@@ -36,12 +37,14 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         user.username = self.cleaned_data.get("username")
         user.email = self.cleaned_data.get("email")
         user.set_password(self.cleaned_data["password"])
-        user.save()
-
-        user.generate_activation_code()
-        user.generate_activation_token()
-        send_activation_email(user)
-        setup_user_email(request, user, [])
+        try: 
+          with transaction.atomic():
+            user.save()
+            user.generate_activation_token()
+            send_activation_email(user)
+            setup_user_email(request, user, [])
+        except Exception as e:
+            raise serializers.ValidationError(str(e))
         return user
 
     def get_cleaned_data(self):
