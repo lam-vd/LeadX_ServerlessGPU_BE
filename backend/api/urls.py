@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
-from core.views.user import CustomRegisterView
+from core.views.user import CustomRegisterView, get_csrf_token
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
@@ -43,4 +43,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/auth/activate/', ActivationView.as_view(), name='activate'),
+    path('api/get-csrf-token/', get_csrf_token, name='get_csrf_token'),
 ]
