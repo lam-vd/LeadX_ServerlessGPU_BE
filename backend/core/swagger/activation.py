@@ -1,6 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from core.messages import ERROR_MESSAGES
+from core.messages import ERROR_MESSAGES, SUCCESS_MESSAGES
 from core.serializers.activation import ActivationSerializer
 
 activation_swagger_schema = swagger_auto_schema(
@@ -9,9 +9,9 @@ activation_swagger_schema = swagger_auto_schema(
     request_body=ActivationSerializer,
     responses={
         200: openapi.Response(
-            description=ERROR_MESSAGES['account_activated'],
+            description=SUCCESS_MESSAGES['account_activated'],
             examples={
-                "application/json": {"detail": ERROR_MESSAGES['account_activated']}
+                "application/json": {"detail": SUCCESS_MESSAGES['account_activated']}
             },
         ),
         400: openapi.Response(

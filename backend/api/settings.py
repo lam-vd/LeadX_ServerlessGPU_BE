@@ -134,9 +134,11 @@ REST_AUTH_REGISTER_SERIALIZERS = {
   'REGISTER_SERIALIZER': 'core.serializers.user.CustomRegisterSerializer',
 }
 
+ACCOUNT_ADAPTER = 'core.adapters.CustomAccountAdapter'
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_UNIQUE_EMAIL = True
 
 # Internationalization
@@ -158,13 +160,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your-client-id>'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your-client-secret>'
 
 
-EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend') 
-EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com') 
-EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)  
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
+EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
