@@ -16,3 +16,8 @@ SUCCESS_MESSAGES = {
     'account_activated': 'Account activated successfully.',
     'user_registered_successfully': 'Please check your email and click on the confirmation link to complete the registration process.',
 }
+
+USER_MESSAGES = {
+    "get_user_success": "User details retrieved successfully.",
+    "auth_credentials_missing": "Authentication credentials were not provided.",
+}
