@@ -1,10 +1,13 @@
 from dj_rest_auth.registration.views import RegisterView
-from core.serializers.user import CustomRegisterSerializer
+from core.serializers.user import CustomRegisterSerializer, UserSerializer
 from core.swagger.register import register_swagger_schema
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from core.messages import SUCCESS_MESSAGES
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 def get_csrf_token(request):
   csrf_token = get_token(request)
@@ -26,3 +29,11 @@ class CustomRegisterView(RegisterView):
                 status=status.HTTP_201_CREATED
             )
         return response
+
+class GetUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=200)

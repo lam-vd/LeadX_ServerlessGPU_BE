@@ -53,3 +53,9 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
             "email": self.validated_data.get("email", ""),
             "password": self.validated_data.get("password", ""),
         }
+
+# API getUserView
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'is_active']
