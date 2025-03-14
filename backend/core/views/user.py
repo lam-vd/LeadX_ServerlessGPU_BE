@@ -15,7 +15,7 @@ class CustomRegisterView(RegisterView):
 
     @register_swagger_schema
     def post(self, request, *args, **kwargs):
-        response =  super().post(request, *args, **kwargs)
+        response = super().post(request, *args, **kwargs)
         if response.status_code == status.HTTP_201_CREATED:
             return JsonResponse(
                 {

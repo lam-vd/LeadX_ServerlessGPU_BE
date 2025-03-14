@@ -8,6 +8,8 @@ ERROR_MESSAGES = {
     'email_too_long': "Email address is too long. Please enter a shorter email.",
     'email_invalid': "Invalid email address. Please enter again.",
     'email_already_registered': "This email is already registered. Please use another email or log in.",
+    'email_already_verified': "Email is already verified.",
+    'missing_token': "Token is missing.",
 }
 
 SUCCESS_MESSAGES = {

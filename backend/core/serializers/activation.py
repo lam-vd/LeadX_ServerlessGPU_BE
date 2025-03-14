@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from rest_framework.response import Response
-from rest_framework import status
+from allauth.account.models import EmailAddress
 from core.models.user import User
 from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 
@@ -11,15 +10,24 @@ class ActivationSerializer(serializers.Serializer):
         try:
             user = User.objects.get(activation_token=data['token'])
             if user.is_active:
-              return Response({"message": ERROR_MESSAGES['account_already_active']}, status=status.HTTP_400_BAD_REQUEST)
+                raise serializers.ValidationError(ERROR_MESSAGES['account_already_active'])
+            email_address = EmailAddress.objects.filter(user=user, email=user.email).first()
+            if not email_address:
+              raise serializers.ValidationError(ERROR_MESSAGES['email_not_found'])
+            if email_address.verified:
+                raise serializers.ValidationError(ERROR_MESSAGES['email_already_verified'])
         except User.DoesNotExist:
             raise serializers.ValidationError(ERROR_MESSAGES['invalid_token'])
         data['user'] = user
+        data['email_address'] = email_address
         return data
 
     def save(self):
         user = self.validated_data['user']
+        email_address = self.validated_data['email_address']
         user.is_active = True
         user.activation_token = user.generate_activation_token()
         user.save()
-        return Response({"message": SUCCESS_MESSAGES['account_activated']}, status=status.HTTP_200_OK)
+        email_address.verified = True
+        email_address.save()
+        return {"message": SUCCESS_MESSAGES['account_activated']}

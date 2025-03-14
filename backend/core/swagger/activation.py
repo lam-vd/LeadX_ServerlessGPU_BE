@@ -8,23 +8,26 @@ activation_swagger_schema = {
         openapi.Parameter(
             name="token",
             in_=openapi.IN_QUERY,
-            description="Activation token",
+            description="Activation token sent via email.",
             type=openapi.TYPE_STRING,
             required=True,
+            example="123e4567-e89b-12d3-a456-426614174000",
         )
     ],
     "responses": {
         200: openapi.Response(
             description=SUCCESS_MESSAGES['account_activated'],
             examples={
-                "application/json": {"detail": SUCCESS_MESSAGES['account_activated']}
+                "application/json": {
+                    "message": SUCCESS_MESSAGES['account_activated']
+                }
             },
         ),
         400: openapi.Response(
-            description=ERROR_MESSAGES['invalid_token'],
+            description="Invalid or missing token.",
             examples={
                 "application/json": {
-                    "token": [ERROR_MESSAGES['invalid_token']]
+                    "error": ERROR_MESSAGES['invalid_token']
                 }
             },
         ),
