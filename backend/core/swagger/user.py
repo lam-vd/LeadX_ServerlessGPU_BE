@@ -11,7 +11,11 @@ get_user_swagger_schema = {
                 "application/json": {
                     "username": "testuser",
                     "email": "testuser@example.com",
-                    "is_active": True
+                    "is_active": True,
+                    "avatar": None,
+                    "phone_number": None,
+                    "created_at": "2021-01-01T00:00:00Z",
+                    "updated_at": "2021-01-01T00:00:00Z",
                 }
             },
         ),

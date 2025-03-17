@@ -58,4 +58,4 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'is_active']
+        fields = ['username', 'email', 'is_active', 'avatar', 'phone_number', 'created_at', 'updated_at']
