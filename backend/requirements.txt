@@ -12,3 +12,4 @@ python-decouple>=3.7,<4.0
 pytest-asyncio>=0.23.2
 pytest-django>=4.7.0
 django-cors-headers
+google-auth

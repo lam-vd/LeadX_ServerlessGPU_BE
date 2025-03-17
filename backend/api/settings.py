@@ -59,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -67,6 +68,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:8001",
+    "https://127.0.0.1:8001",
 ]
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
@@ -137,8 +143,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "core.User"
 
 AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-    "allauth.account.auth_backends.AuthenticationBackend",
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -190,9 +197,21 @@ MEDIA_URL = "/api_media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your-client-id>'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your-client-secret>'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_SECRET")
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = os.environ.get("GOOGLE_OAUTH2_REDIRECT_URI")
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+    }
+}
 
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
