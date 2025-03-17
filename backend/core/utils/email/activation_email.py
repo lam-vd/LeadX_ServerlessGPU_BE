@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 def send_activation_email(user):
     subject = "Activate Your Account"
     url = settings.REACT_APP_API_URL
-    activation_url = f"{url}/auth/activate/?token={user.activation_token}"
+    activation_url = f"{url}/activate/?token={user.activation_token}"
 
     html_message = render_to_string("activation_email.html", {
         "username": user.username,
