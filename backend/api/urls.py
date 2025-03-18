@@ -45,6 +45,6 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/auth/activate/', ActivationView.as_view(), name='activate'),
     path('api/get-csrf-token/', get_csrf_token, name='get_csrf_token'),
-    path('auth/user/', GetUserView.as_view(), name='get_user'),
+    path('api/auth/get-user/', GetUserView.as_view(), name='get_user'),
     path('api/auth/google/', GoogleLoginView.as_view(), name='google_login'),
 ]
