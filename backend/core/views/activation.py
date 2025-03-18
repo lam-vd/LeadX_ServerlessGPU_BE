@@ -11,20 +11,23 @@ class ActivationView(APIView):
     def get(self, request):
         token = request.query_params.get('token')
         if not token:
-            return Response(
-                {"error": ERROR_MESSAGES['missing_token']},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({
+                'data': {},
+                'status': 'error',
+                'message': ERROR_MESSAGES['missing_token']
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = ActivationSerializer(data={'token': token})
         if serializer.is_valid():
             serializer.save()
-            return Response(
-                {"message": SUCCESS_MESSAGES['account_activated']},
-                status=status.HTTP_200_OK
-            )
+            return Response({
+                'data': {},
+                'status': 'success',
+                'message': SUCCESS_MESSAGES['account_activated']
+            }, status=status.HTTP_200_OK)
 
-        return Response(
-            {"error": serializer.errors.get('token', ["Invalid token"])[0]},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({
+            'data': {},
+            'status': 'error',
+            'message': serializer.errors.get('token', ["Invalid token"])[0]
+        }, status=status.HTTP_400_BAD_REQUEST)

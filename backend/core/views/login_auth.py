@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from core.serializers.login_auth import CustomLoginSerializer
 from core.serializers.user import UserSerializer
 from core.swagger.login import login_swagger_schema
+from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 
 class CustomLoginView(APIView):
     @login_swagger_schema()
@@ -14,8 +15,16 @@ class CustomLoginView(APIView):
             user = serializer.validated_data["user"]
             token = self.generate_user_token(user)
             user_data = self.get_user_data(user, token)
-            return Response(user_data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "data": user_data,
+                "status": "success",
+                "message": SUCCESS_MESSAGES["login_success"]
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "data": {},
+            "status": "error",
+            "message": ERROR_MESSAGES["invalid_credentials"]
+        }, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_user_token(self, user):
         try:
@@ -25,8 +34,8 @@ class CustomLoginView(APIView):
             return None
 
     def get_user_data(self, user, token):
-        user_data = UserSerializer(user)
+        user_data = UserSerializer(user, context={"request": self.request}).data
         return {
             "token": token.key,
-            "user": user_data.data
-        } 
+            "user": user_data
+        }
