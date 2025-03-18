@@ -45,7 +45,7 @@ urlpatterns = [
     path('api/auth/registration/', CustomRegisterView.as_view(), name='custom_register'),
     path('api/auth/activate/', ActivationView.as_view(), name='activate'),
     path('api/get-csrf-token/', get_csrf_token, name='get_csrf_token'),
-    path('auth/user/', GetUserView.as_view(), name='get_user'),
+    path('api/auth/get-user/', GetUserView.as_view(), name='get_user'),
     path('api/auth/google/', GoogleLoginView.as_view(), name='google_login'),
     path('api/auth/social/', include('allauth.socialaccount.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
