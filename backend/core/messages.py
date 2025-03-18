@@ -10,6 +10,8 @@ ERROR_MESSAGES = {
     'email_already_registered': "This email is already registered. Please use another email or log in.",
     'email_already_verified': "Email is already verified.",
     'missing_token': "Token is missing.",
+    'invalid_credentials': "Invalid email or password.",
+    'account_inactive': "This account is not active. Please verify your email.",
 }
 
 SUCCESS_MESSAGES = {

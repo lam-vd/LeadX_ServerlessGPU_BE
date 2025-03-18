@@ -56,6 +56,12 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
 
 # API getUserView
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = ['username', 'email', 'is_active', 'avatar', 'phone_number', 'created_at', 'updated_at']
+
+    def get_avatar(self, obj):
+        if obj.avatar:
+          return obj.avatar.url
+        return "/media/avatars/avatar-user-default.png"

@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
 from core.views.user import CustomRegisterView, get_csrf_token, GetUserView
+from core.views.login_auth import CustomLoginView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from core.views.activation import ActivationView
 from core.views.google_auth import GoogleLoginView
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -38,13 +41,16 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/login/', CustomLoginView.as_view(), name='custom_login'),
     path('api/auth/registration/', CustomRegisterView.as_view(), name='custom_register'),
-    path('api/auth/social/', include('allauth.socialaccount.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/auth/activate/', ActivationView.as_view(), name='activate'),
     path('api/get-csrf-token/', get_csrf_token, name='get_csrf_token'),
     path('auth/user/', GetUserView.as_view(), name='get_user'),
     path('api/auth/google/', GoogleLoginView.as_view(), name='google_login'),
+    path('api/auth/social/', include('allauth.socialaccount.urls')),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

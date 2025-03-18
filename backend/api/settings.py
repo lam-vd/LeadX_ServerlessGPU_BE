@@ -193,7 +193,7 @@ USE_TZ = True
 
 STATIC_URL = "/api_static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_URL = "/api_media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
@@ -220,5 +220,6 @@ EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 REACT_APP_API_URL=os.environ.get("REACT_APP_API_URL")
+BACKEND_API_DOMAIN=os.environ.get("BACKEND_API_DOMAIN")
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
