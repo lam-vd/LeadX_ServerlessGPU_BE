@@ -213,6 +213,8 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+APPEND_SLASH = False
+
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
 EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
