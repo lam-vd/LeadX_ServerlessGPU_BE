@@ -6,6 +6,8 @@ from core.models.user import User
 MAX_EMAIL_LENGTH = 320
 
 def validate_email(email):
+    if not email:
+        raise ValidationError(ERROR_MESSAGES['email_required'])
     if len(email) > MAX_EMAIL_LENGTH:
         raise ValidationError(ERROR_MESSAGES['email_too_long'])
     if User.objects.filter(email=email).exists():

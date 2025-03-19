@@ -10,7 +10,7 @@ def send_reset_password_email(user):
     reset_password_url = urljoin(base_url, reset_password_path)
     html_message = render_to_string("reset_password_email.html", {
         "username": user.username,
-        "action_url": reset_password_url,
+        "reset_password_url": reset_password_url,
     })
 
     from_email = settings.EMAIL_HOST_USER

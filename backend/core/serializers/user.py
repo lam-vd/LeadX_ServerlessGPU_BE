@@ -38,11 +38,11 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         user.email = self.cleaned_data.get("email")
         user.set_password(self.cleaned_data["password"])
         try: 
-          with transaction.atomic():
-            user.save()
-            user.generate_activation_token()
-            send_activation_email(user)
-            setup_user_email(request, user, [])
+            with transaction.atomic():
+                user.save()
+                user.generate_activation_token()
+                send_activation_email(user)
+                setup_user_email(request, user, [])
         except Exception as e:
             raise serializers.ValidationError(str(e))
         return user
