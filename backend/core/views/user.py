@@ -3,7 +3,7 @@ from core.serializers.user import CustomRegisterSerializer, UserSerializer
 from core.swagger.register import register_swagger_schema
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
+from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES, USER_MESSAGES
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -40,5 +40,5 @@ class GetUserView(APIView):
         return Response({
             'data': serializer.data,
             'status': 'success',
-            'message': SUCCESS_MESSAGES['get_user_success']
+            'message': USER_MESSAGES['get_user_success']
         }, status=200)

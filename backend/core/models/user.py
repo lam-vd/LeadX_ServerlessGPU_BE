@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from datetime import timedelta
+from django.utils.timezone import now
 import uuid
 
 class UserManager(BaseUserManager):
@@ -33,6 +35,8 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
+    reset_password_token = models.UUIDField(default=None, null=True, blank=True, unique=True)
+    reset_password_expiry = models.DateTimeField(default=None, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -44,4 +48,8 @@ class User(AbstractUser):
 
     def generate_activation_token(self):
         self.activation_token = uuid.uuid4()
+        self.save()
+    def generate_reset_password_token(self):
+        self.reset_password_token = uuid.uuid4()
+        self.reset_password_expiry = now() + timedelta(hours=1)
         self.save()

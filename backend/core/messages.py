@@ -11,17 +11,21 @@ ERROR_MESSAGES = {
     'email_already_verified': 'Your email is already verified.',
     'missing_token': "Token is missing.",
     'invalid_credentials': "Invalid email or password.",
-    'account_inactive': "This account is not active. Please verify your email.",
     'invalid_data': "Invalid data provided.",
     'registration_failed': "Registration failed.",
+    'email_not_found': 'This email is not registered.',
+    'account_inactive': 'This account is inactive.',
+    'token_expired': 'The reset password token has expired.',
+    'password_mismatch': 'Passwords do not match.',
 }
 
 SUCCESS_MESSAGES = {
     'account_activated': 'Your account has been activated successfully.',
     'user_registered_successfully': 'Please check your email and click on the confirmation link to complete the registration process.',
     'google_login_success': 'User authenticated successfully.',
-    'get_user_success': 'User details retrieved successfully.',
     'login_success': 'Login successful.',
+    'password_reset_email_sent': 'Password reset email sent successfully.',
+    'password_reset_success': 'Password has been reset successfully.',
 }
 
 USER_MESSAGES = {
