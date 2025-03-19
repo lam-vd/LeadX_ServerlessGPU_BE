@@ -60,8 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'is_active', 'avatar', 'phone_number', 'created_at', 'updated_at']
-
     def get_avatar(self, obj):
-        if obj.avatar:
-          return obj.avatar.url
+        if hasattr(obj, 'avatar') and obj.avatar:
+            return obj.avatar.url
         return "/media/avatars/avatar-user-default.png"

@@ -1,6 +1,3 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
-from django.contrib.auth.models import User
 import requests
 from django.core.files.base import ContentFile
 from django.contrib.auth import get_user_model
@@ -59,7 +56,7 @@ class GoogleAuthService:
                 token, _ = Token.objects.get_or_create(user=user)
 
             user_data = UserSerializer(user).data
-            return token, user_data
+            return token.key, user_data
         except ValueError as e:
             logger.error(f"Google token validation failed: {str(e)}")
             raise ValueError("Invalid Google Token")
