@@ -28,5 +28,8 @@ COPY ./entrypoint.sh .
 # copy project
 COPY . .
 
+# Copy the default avatar into the media directory
+COPY media/avatars/avatar-user-default.png /srv/app/media/avatars/
+
 # run entrypoint.sh
 ENTRYPOINT ["/srv/app/entrypoint.sh"]

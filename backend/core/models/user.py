@@ -29,7 +29,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     billing_address = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/avatar-user-default.png', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)

@@ -164,10 +164,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ),
+    ],
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -193,7 +193,7 @@ USE_TZ = True
 
 STATIC_URL = "/api_static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_URL = "/api_media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
@@ -213,6 +213,8 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+APPEND_SLASH = False
+
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
 EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
@@ -220,5 +222,6 @@ EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 REACT_APP_API_URL=os.environ.get("REACT_APP_API_URL")
+BACKEND_API_DOMAIN=os.environ.get("BACKEND_API_DOMAIN")
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
