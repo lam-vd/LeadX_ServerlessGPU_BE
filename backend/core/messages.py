@@ -17,6 +17,7 @@ ERROR_MESSAGES = {
     'account_inactive': 'This account is inactive.',
     'token_expired': 'The reset password token has expired.',
     'password_mismatch': 'Passwords do not match.',
+    'token_not_found': 'Token not found. User may already be logged out.',
 }
 
 SUCCESS_MESSAGES = {
@@ -26,6 +27,7 @@ SUCCESS_MESSAGES = {
     'login_success': 'Login successful.',
     'password_reset_email_sent': 'Password reset email sent successfully.',
     'password_reset_success': 'Password has been reset successfully.',
+    'logout_success': 'Logout successful.',
 }
 
 USER_MESSAGES = {
