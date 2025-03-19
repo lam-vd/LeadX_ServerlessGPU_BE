@@ -23,6 +23,7 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from core.views.activation import ActivationView
 from core.views.google_auth import GoogleLoginView
+from core.views.logout import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 from core.views.password_reset import ForgotPasswordView, ResetPasswordView
@@ -53,6 +54,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('api/auth/forgot-password/', ForgotPasswordView.as_view(), name='forgot_password'),
     path('api/auth/reset-password/', ResetPasswordView.as_view(), name='reset_password'),
+    path('api/auth/logout/', LogoutView.as_view(), name='logout'),
 ]
 
 if settings.DEBUG:
