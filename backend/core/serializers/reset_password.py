@@ -2,10 +2,15 @@ from rest_framework import serializers
 from core.models.user import User
 from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 from django.utils.timezone import now
+from core.validators.password import validate_password
 
 class ResetPasswordSerializer(serializers.Serializer):
     token = serializers.UUIDField(required=True)
-    password_new = serializers.CharField(write_only=True, required=True)
+    password_new = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+    )
     password_confirmation = serializers.CharField(write_only=True, required=True)
 
     def validate(self, data):
