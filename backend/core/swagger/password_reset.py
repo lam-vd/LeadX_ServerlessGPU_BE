@@ -40,6 +40,7 @@ forgot_password_response_400 = openapi.Response(
 )
 
 forgot_password_swagger_schema = swagger_auto_schema(
+    operation_summary="Forgot Password",
     operation_description="Request a password reset email by providing the user's email address.",
     request_body=forgot_password_request_body,
     responses={
@@ -99,6 +100,7 @@ reset_password_response_400 = openapi.Response(
 )
 
 reset_password_swagger_schema = swagger_auto_schema(
+    operation_summary="Reset Password",
     operation_description="Reset the user's password using the reset token and new password.",
     request_body=reset_password_request_body,
     responses={
