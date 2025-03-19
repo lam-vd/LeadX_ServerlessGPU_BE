@@ -5,7 +5,7 @@ ERROR_MESSAGES = {
     'password_too_short': "Password is too short. Please enter at least 8 characters.",
     'password_too_long': "Password is too long. Please enter no more than 30 characters.",
     'password_invalid': "The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.",
-    'email_too_long': "Email address is too long. Please enter a shorter email.",
+    'email_too_long': "Email address is too long. Please enter no more than 320 characters.",
     'email_invalid': "Invalid email address. Please enter again.",
     'email_already_registered': "This email is already registered. Please use another email or log in.",
     'email_already_verified': 'Your email is already verified.',
@@ -18,6 +18,10 @@ ERROR_MESSAGES = {
     'token_expired': 'The reset password token has expired.',
     'password_mismatch': 'Passwords do not match.',
     'token_not_found': 'Token not found. User may already be logged out.',
+    'incorrect_email': 'Incorrect email. Please try again.',
+    'incorrect_password': 'Incorrect password. Please try again.',
+    'email_required': "Please enter your email address.",
+    'password_required': "Please enter your password.",
 }
 
 SUCCESS_MESSAGES = {

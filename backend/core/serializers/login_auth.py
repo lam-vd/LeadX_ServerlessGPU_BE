@@ -22,8 +22,15 @@ class CustomLoginSerializer(serializers.Serializer):
         except serializers.ValidationError:
             raise serializers.ValidationError({"email": ERROR_MESSAGES['email_invalid']})
 
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"email": ERROR_MESSAGES['incorrect_email']})
+
         user = authenticate(username=email, password=password)
         if not user:
+            if User.objects.filter(email=email).exists():
+                raise serializers.ValidationError({"password": ERROR_MESSAGES['incorrect_password']})
             raise serializers.ValidationError({"detail": ERROR_MESSAGES['invalid_credentials']})
 
         if not user.is_active:
