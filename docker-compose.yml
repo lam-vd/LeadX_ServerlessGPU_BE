@@ -30,7 +30,7 @@ services:
     container_name: dev-mailhog
     ports:
       - 1080:8025
-      - 2025:2025
+      - 2025:1025
 
 volumes:
   node_modules:
