@@ -27,5 +27,6 @@ class GoogleLoginView(APIView):
         return Response({
             'data': {},
             'status': 'error',
-            'message': ERROR_MESSAGES['invalid_data']
+            'message': ERROR_MESSAGES['invalid_data'],
+            'errors': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)

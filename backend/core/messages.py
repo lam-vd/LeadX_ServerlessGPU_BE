@@ -2,6 +2,8 @@ ERROR_MESSAGES = {
     'invalid_token': 'Invalid activation token.',
     'account_already_active': 'Your account is already active.',
     'validation_error': 'Validation error.',
+    'username_required': "Please enter your full name.",
+    'username_too_long': "Full name is too long. Please enter no more than 150 characters.",
     'password_too_short': "Password is too short. Please enter at least 8 characters.",
     'password_too_long': "Password is too long. Please enter no more than 30 characters.",
     'password_invalid': "The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.",
