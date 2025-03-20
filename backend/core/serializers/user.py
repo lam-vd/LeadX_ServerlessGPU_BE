@@ -4,19 +4,17 @@ from core.models.user import User
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from core.utils.email.activation_email import send_activation_email
-from core.validators.username import validate_username, MAX_USERNAME_LENGTH
-from core.validators.email import validate_email, MAX_EMAIL_LENGTH
+from core.validators.username import validate_username
+from core.validators.email import validate_email
 from core.validators.password import validate_password
 
 class CustomRegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         required=True,
-        max_length=MAX_USERNAME_LENGTH,
         validators=[validate_username],
     )
     email = serializers.EmailField(
         required=True,
-        max_length=MAX_EMAIL_LENGTH,
         validators=[validate_email],
     )
     password = serializers.CharField(

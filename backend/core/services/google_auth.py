@@ -32,6 +32,10 @@ class GoogleAuthService:
             if not email:
                 raise ValueError("Email not found in Google response")
 
+            existing_user = User.objects.filter(email=email).first()
+            if existing_user:
+                raise ValueError("This email is already registered. Please log in using your credentials.")
+
             with transaction.atomic():
                 user, created = User.objects.get_or_create(
                     email=email,
@@ -59,7 +63,7 @@ class GoogleAuthService:
             return token.key, user_data
         except ValueError as e:
             logger.error(f"Google token validation failed: {str(e)}")
-            raise ValueError("Invalid Google Token")
+            raise ValueError(str(e))
         except Exception as e:
             logger.error(f"An unexpected error occurred: {str(e)}")
             raise Exception("An error occurred during Google authentication")
