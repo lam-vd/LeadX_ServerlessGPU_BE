@@ -54,7 +54,7 @@ register_swagger_schema = swagger_auto_schema(
                         "password": ["Ensure this field has at least 8 characters."]
                     },
                     "status": "error",
-                    "message": ERROR_MESSAGES['registration_failed']
+                    "message": ERROR_MESSAGES['registration_failed'],
                     "errors": {
                         "email": ["This email is already taken."],
                         "password": ["Ensure this field has at least 8 characters."]

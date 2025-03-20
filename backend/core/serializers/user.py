@@ -13,7 +13,7 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[validate_username],
     )
-    email = serializers.EmailField(
+    email = serializers.CharField(
         required=True,
         validators=[validate_email],
     )

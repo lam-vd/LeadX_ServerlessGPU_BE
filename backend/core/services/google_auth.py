@@ -34,7 +34,12 @@ class GoogleAuthService:
 
             existing_user = User.objects.filter(email=email).first()
             if existing_user:
-                raise ValueError("This email is already registered. Please log in using your credentials.")
+                if existing_user.is_active:
+                    token, _ = Token.objects.get_or_create(user=existing_user)
+                    user_data = UserSerializer(existing_user).data
+                    return token.key, user_data
+                else:
+                  raise ValueError("This email is already registered. Please log in using your credentials.")
 
             with transaction.atomic():
                 user, created = User.objects.get_or_create(
