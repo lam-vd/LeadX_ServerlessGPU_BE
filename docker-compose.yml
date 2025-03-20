@@ -15,7 +15,6 @@ services:
       - media:/srv/app/media
     depends_on:
       - db
-      - mailhog
   db:
     image: postgres:16.1-alpine
     container_name: dev-db
