@@ -15,6 +15,7 @@ services:
       - media:/srv/app/media
     depends_on:
       - db
+      - mailhog
   db:
     image: postgres:16.1-alpine
     container_name: dev-db
@@ -24,11 +25,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  mailcatcher:
-    image: schickling/mailcatcher
-    container_name: dev-mailcatcher
+  mailhog:
+    image: mailhog/mailhog
+    container_name: dev-mailhog
     ports:
-      - 1080:1080
+      - 1080:8025
       - 2025:2025
 
 volumes:
