@@ -23,7 +23,8 @@ class CustomLoginView(APIView):
         return Response({
             "data": {},
             "status": "error",
-            "message": ERROR_MESSAGES["invalid_credentials"]
+            "message": ERROR_MESSAGES["invalid_credentials"],
+            "errors": serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_user_token(self, user):

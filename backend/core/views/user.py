@@ -18,8 +18,9 @@ class CustomRegisterView(RegisterView):
 
     @register_swagger_schema
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == status.HTTP_201_CREATED:
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
             return JsonResponse({
                 'data': {},
                 'status': 'success',
@@ -28,8 +29,9 @@ class CustomRegisterView(RegisterView):
         return JsonResponse({
             'data': {},
             'status': 'error',
-            'message': ERROR_MESSAGES['registration_failed']
-        }, status=response.status_code)
+            'message': ERROR_MESSAGES['registration_failed'],
+            'errors': serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class GetUserView(APIView):
     permission_classes = [IsAuthenticated]
