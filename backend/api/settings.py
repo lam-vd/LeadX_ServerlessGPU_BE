@@ -218,6 +218,10 @@ APPEND_SLASH = False
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
 EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", default="False") == "True"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@example.com")
 REACT_APP_API_URL=os.environ.get("REACT_APP_API_URL")
 BACKEND_API_DOMAIN=os.environ.get("BACKEND_API_DOMAIN")
