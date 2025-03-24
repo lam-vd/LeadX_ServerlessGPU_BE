@@ -14,19 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib import admin
 from django.urls import path, include
-from rest_framework import permissions
-from core.views.user import CustomRegisterView, get_csrf_token, GetUserView
-from core.views.login_auth import CustomLoginView
+from django.conf import settings
+from django.conf.urls.static import static
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+
+from core.views.user import CustomRegisterView, get_csrf_token, GetUserView
+from core.views.login_auth import CustomLoginView
 from core.views.activation import ActivationView
 from core.views.google_auth import GoogleLoginView
 from core.views.logout import LogoutView
-from django.conf import settings
-from django.conf.urls.static import static
 from core.views.password_reset import ForgotPasswordView, ResetPasswordView
+from core.views.profile import UpdateProfileView
+from core.views.change_password import ChangePasswordView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -55,6 +59,8 @@ urlpatterns = [
     path('api/auth/forgot-password/', ForgotPasswordView.as_view(), name='forgot_password'),
     path('api/auth/reset-password/', ResetPasswordView.as_view(), name='reset_password'),
     path('api/auth/logout/', LogoutView.as_view(), name='logout'),
+    path('api/auth/update-profile/', UpdateProfileView.as_view(), name='update_profile'),
+    path('api/auth/change-password/', ChangePasswordView.as_view(), name='change_password'),
 ]
 
 if settings.DEBUG:
