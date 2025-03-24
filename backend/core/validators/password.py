@@ -12,6 +12,6 @@ def validate_password(password):
         raise ValidationError(ERROR_MESSAGES['password_too_short'])
     if len(password) > MAX_PASSWORD_LENGTH:
         raise ValidationError(ERROR_MESSAGES['password_too_long'])
-    if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", password):
+    if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?()])[A-Za-z\d!@#$%^&*?()]{8,}$", password):
         raise ValidationError(ERROR_MESSAGES['password_invalid'])
     return password
