@@ -24,6 +24,12 @@ ERROR_MESSAGES = {
     'incorrect_password': 'Incorrect password. Please try again.',
     'email_required': "Please enter your email address.",
     'password_required': "Please enter your password.",
+    'old_password_incorrect': 'The old password is incorrect.',
+    'password_mismatch': 'The new password and confirmation password do not match.',
+    'password_same_as_old': 'The new password cannot be the same as the old password.',
+    'invalid_phone_number': 'Invalid phone number format. The phone number must be between 7 and 15 digits and can optionally start with a "+".',
+    'avatar_size_exceeded': 'Avatar file size must not exceed 2MB.',
+    'avatar_invalid_type': 'Invalid avatar file type. Only PNG, JPG, and JPEG files are allowed.',
 }
 
 SUCCESS_MESSAGES = {
@@ -34,6 +40,8 @@ SUCCESS_MESSAGES = {
     'password_reset_email_sent': 'Password reset email sent successfully.',
     'password_reset_success': 'Password has been reset successfully.',
     'logout_success': 'Logout successful.',
+    'profile_updated': 'Profile updated successfully.',
+    'password_changed': 'Password changed successfully.',
 }
 
 USER_MESSAGES = {
