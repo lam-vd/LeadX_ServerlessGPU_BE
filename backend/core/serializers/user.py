@@ -12,16 +12,13 @@ import os
 
 class CustomRegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
-        required=True,
         validators=[validate_username],
     )
     email = serializers.CharField(
-        required=True,
         validators=[validate_email],
     )
     password = serializers.CharField(
         write_only=True,
-        required=True,
         validators=[validate_password],
     )
 

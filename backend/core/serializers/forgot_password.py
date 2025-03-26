@@ -3,7 +3,7 @@ from core.models.user import User
 from core.utils.email.activation_password import send_reset_password_email
 
 class ForgotPasswordSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
+    email = serializers.CharField(write_only=True)
 
     def validate_email(self, value):
         try:

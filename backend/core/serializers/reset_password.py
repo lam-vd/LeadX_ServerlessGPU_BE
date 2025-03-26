@@ -7,10 +7,9 @@ class ResetPasswordSerializer(serializers.Serializer):
     token = serializers.UUIDField(required=True)
     password_new = serializers.CharField(
         write_only=True,
-        required=True,
         validators=[validate_password],
     )
-    password_confirmation = serializers.CharField(write_only=True, required=True)
+    password_confirmation = serializers.CharField(write_only=True)
 
     def validate(self, data):
         if data['password_new'] != data['password_confirmation']:
