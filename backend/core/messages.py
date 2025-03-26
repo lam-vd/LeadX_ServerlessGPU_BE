@@ -28,13 +28,9 @@ ERROR_MESSAGES = {
     'password_mismatch': 'The new password and confirmation password do not match.',
     'password_same_as_old': 'The new password cannot be the same as the old password.',
     'invalid_phone_number': 'Invalid phone number format. The phone number must be between 7 and 15 digits and can optionally start with a "+".',
-    'avatar_size_exceeded': 'Avatar file size must not exceed 2MB.',
-    'avatar_invalid_type': 'The file you selected is not a valid image. Please upload a .jpg, .jpeg, .png, .webp or .gif file.',
+    'avatar_size_exceeded': 'Avatar file size must not exceed 5MB.',
+    'avatar_invalid_type': 'The file you selected is not a valid image. Please upload a .jpg, .jpeg, .png or .gif file.',
     'avatar_already_uploaded': 'This image has already been uploaded.',
-    'avatar_too_small': 'The image is too small. Required size: 1000x1000 pixels.',
-    'avatar_too_large': 'The image dimensions are too large. Required size: 1000x1000 pixels.',
-    'avatar_invalid_dimensions': 'The image must be exactly 1000x1000 pixels.',
-    'avatar_unreadable': 'Unable to read the image file. Please try another one.',
 }
 
 SUCCESS_MESSAGES = {

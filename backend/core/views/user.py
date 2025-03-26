@@ -6,12 +6,13 @@ from django.middleware.csrf import get_token
 from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES, USER_MESSAGES
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from core.utils.response_formatter import success_response, error_response
+from core.swagger.user import register_swagger_schema, get_user_swagger_schema
 
 def get_csrf_token(request):
-  csrf_token = get_token(request)
-  return JsonResponse({'csrfToken': csrf_token})
+    csrf_token = get_token(request)
+    return JsonResponse({'csrfToken': csrf_token})
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
@@ -21,26 +22,26 @@ class CustomRegisterView(RegisterView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
-            return JsonResponse({
-                'data': {},
-                'status': 'success',
-                'message': SUCCESS_MESSAGES['user_registered_successfully']
-            }, status=status.HTTP_201_CREATED)
-        return JsonResponse({
-            'data': {},
-            'status': 'error',
-            'message': ERROR_MESSAGES['registration_failed'],
-            'errors': serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+            return success_response(
+                data={},
+                message=SUCCESS_MESSAGES['user_registered_successfully'],
+                status_code=status.HTTP_201_CREATED
+            )
+        return error_response(
+            errors=serializer.errors,
+            message=ERROR_MESSAGES['registration_failed'],
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
 
 class GetUserView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @get_user_swagger_schema
     def get(self, request):
         user = request.user
         serializer = UserSerializer(user)
-        return Response({
-            'data': serializer.data,
-            'status': 'success',
-            'message': USER_MESSAGES['get_user_success']
-        }, status=200)
+        return success_response(
+            data=serializer.data,
+            message=USER_MESSAGES['get_user_success'],
+            status_code=status.HTTP_200_OK
+        )

@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from core.serializers.login_auth import CustomLoginSerializer
 from core.serializers.user import UserSerializer
 from core.swagger.login import login_swagger_schema
 from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
+from core.utils.response_formatter import success_response, error_response
 
 class CustomLoginView(APIView):
     @login_swagger_schema()
@@ -15,17 +15,16 @@ class CustomLoginView(APIView):
             user = serializer.validated_data["user"]
             token = self.generate_user_token(user)
             user_data = self.get_user_data(user, token)
-            return Response({
-                "data": user_data,
-                "status": "success",
-                "message": SUCCESS_MESSAGES["login_success"]
-            }, status=status.HTTP_200_OK)
-        return Response({
-            "data": {},
-            "status": "error",
-            "message": ERROR_MESSAGES["invalid_credentials"],
-            "errors": serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+            return success_response(
+                data=user_data,
+                message=SUCCESS_MESSAGES["login_success"],
+                status_code=status.HTTP_200_OK
+            )
+        return error_response(
+            errors=serializer.errors,
+            message=ERROR_MESSAGES["invalid_credentials"],
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
 
     def generate_user_token(self, user):
         token, _ = Token.objects.get_or_create(user=user)
