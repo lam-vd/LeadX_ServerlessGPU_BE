@@ -7,6 +7,8 @@ from core.utils.email.activation_email import send_activation_email
 from core.validators.username import validate_username
 from core.validators.email import validate_email
 from core.validators.password import validate_password
+from django.conf import settings
+import os
 
 class CustomRegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
@@ -59,6 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'is_active', 'avatar', 'phone_number', 'created_at', 'updated_at']
     def get_avatar(self, obj):
-        if hasattr(obj, 'avatar') and obj.avatar:
-            return obj.avatar.url
-        return "/media/avatars/avatar-user-default.png"
+        backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
+        if hasattr(obj, 'avatar') and obj.avatar and os.path.isfile(obj.avatar.path):
+            return f"{backend_api_domain}{obj.avatar.url}"
+        return f"{backend_api_domain}/media/avatars/avatar-user-default.png"

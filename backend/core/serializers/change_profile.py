@@ -2,6 +2,7 @@ from rest_framework import serializers
 from core.models.user import User
 from core.validators.username import validate_username
 from core.validators.profile_validators import validate_phone_number, validate_avatar
+import os
 
 class UpdateProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
@@ -28,11 +29,13 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
         }
 
     def update(self, instance, validated_data):
+        if 'avatar' in validated_data:
+            if instance.avatar and os.path.isfile(instance.avatar.path):
+                os.remove(instance.avatar.path)
+            instance.avatar = validated_data['avatar']
         if 'username' in validated_data:
             instance.username = validated_data['username']
         if 'phone_number' in validated_data:
             instance.phone_number = validated_data['phone_number']
-        if 'avatar' in validated_data:
-            instance.avatar = validated_data['avatar']
         instance.save()
         return instance
