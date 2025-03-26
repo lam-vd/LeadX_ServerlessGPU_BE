@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from core.utils.response_formatter import success_response, error_response
-from core.swagger.user import register_swagger_schema, get_user_swagger_schema
+from core.swagger.user import get_user_swagger_schema
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
