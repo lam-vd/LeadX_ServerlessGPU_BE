@@ -29,7 +29,8 @@ COPY ./entrypoint.sh .
 COPY . .
 
 # Copy the default avatar into the media directory
-COPY backend/media/avatars/avatar-user-default.png /srv/app/media/avatars/
+COPY media/avatars/avatar-user-default.png /srv/app/media/avatars/
+RUN chmod 644 /srv/app/media/avatars/avatar-user-default.png
 
 # run entrypoint.sh
 ENTRYPOINT ["/srv/app/entrypoint.sh"]
