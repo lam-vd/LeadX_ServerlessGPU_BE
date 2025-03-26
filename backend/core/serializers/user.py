@@ -7,6 +7,8 @@ from core.utils.email.activation_email import send_activation_email
 from core.validators.username import validate_username
 from core.validators.email import validate_email
 from core.validators.password import validate_password
+from django.conf import settings
+import os
 
 class CustomRegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
@@ -35,7 +37,10 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         user.username = self.cleaned_data.get("username")
         user.email = self.cleaned_data.get("email")
         user.set_password(self.cleaned_data["password"])
-        try: 
+        if user.avatar == f"avatars/{settings.DEFAULT_AVATAR_PATH}":
+            backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
+            user.avatar = f"{backend_api_domain}/media/{user.avatar}"
+        try:
             with transaction.atomic():
                 user.save()
                 user.generate_activation_token()
@@ -59,6 +64,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'is_active', 'avatar', 'phone_number', 'created_at', 'updated_at']
     def get_avatar(self, obj):
-        if hasattr(obj, 'avatar') and obj.avatar:
-            return obj.avatar.url
-        return "/media/avatars/avatar-user-default.png"
+        backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
+        if hasattr(obj, 'avatar') and obj.avatar and os.path.isfile(obj.avatar.path):
+            return f"{backend_api_domain}{obj.avatar.url}"
+        return f"{backend_api_domain}/media/avatars/{settings.DEFAULT_AVATAR_PATH}"
