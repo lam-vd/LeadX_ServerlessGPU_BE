@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from core.models.user import User
 from core.utils.email.activation_password import send_reset_password_email
+from core.validators.email import validate_email
 
 class ForgotPasswordSerializer(serializers.Serializer):
-    email = serializers.CharField(write_only=True)
+    email = serializers.CharField(write_only=True, validators=[validate_email])
 
     def validate_email(self, value):
         try:
