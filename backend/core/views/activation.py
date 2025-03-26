@@ -2,7 +2,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from core.serializers.activation import ActivationSerializer
 from drf_yasg.utils import swagger_auto_schema
-from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 from core.swagger.activation import activation_swagger_schema
 from core.utils.response_formatter import success_response, error_response
 
@@ -12,8 +11,8 @@ class ActivationView(APIView):
         token = request.query_params.get('token')
         if not token:
             return error_response(
-                errors={"token": [ERROR_MESSAGES['missing_token']]},
-                message=ERROR_MESSAGES['missing_token'],
+                errors={"token": ["missing_token"]},
+                message="missing_token",
                 status_code=status.HTTP_400_BAD_REQUEST
             )
 
@@ -22,12 +21,12 @@ class ActivationView(APIView):
             serializer.save()
             return success_response(
                 data={},
-                message=SUCCESS_MESSAGES['account_activated'],
+                message="account_activated",
                 status_code=status.HTTP_200_OK
             )
 
         return error_response(
             errors=serializer.errors,
-            message=serializer.errors.get('token', ["Invalid token"])[0],
+            message="invalid_token",
             status_code=status.HTTP_400_BAD_REQUEST
         )

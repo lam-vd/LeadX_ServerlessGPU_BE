@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from allauth.account.models import EmailAddress
 from core.models.user import User
-from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 
 class ActivationSerializer(serializers.Serializer):
     token = serializers.UUIDField(required=True)
@@ -10,14 +9,14 @@ class ActivationSerializer(serializers.Serializer):
         try:
             user = User.objects.get(activation_token=data['token'])
             if user.is_active:
-                raise serializers.ValidationError(ERROR_MESSAGES['account_already_active'])
+                raise serializers.ValidationError('account_already_active')
             email_address = EmailAddress.objects.filter(user=user, email=user.email).first()
             if not email_address:
-              raise serializers.ValidationError(ERROR_MESSAGES['email_not_found'])
+              raise serializers.ValidationError('email_not_found')
             if email_address.verified:
-                raise serializers.ValidationError(ERROR_MESSAGES['email_already_verified'])
+                raise serializers.ValidationError('email_already_verified')
         except User.DoesNotExist:
-            raise serializers.ValidationError(ERROR_MESSAGES['invalid_token'])
+            raise serializers.ValidationError('invalid_token')
         data['user'] = user
         data['email_address'] = email_address
         return data
@@ -30,4 +29,4 @@ class ActivationSerializer(serializers.Serializer):
         user.save()
         email_address.verified = True
         email_address.save()
-        return {"message": SUCCESS_MESSAGES['account_activated']}
+        return {"message": 'account_activated'}

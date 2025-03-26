@@ -2,7 +2,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from core.serializers.forgot_password import ForgotPasswordSerializer
 from core.serializers.reset_password import ResetPasswordSerializer
-from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 from core.swagger.password_reset import forgot_password_swagger_schema, reset_password_swagger_schema
 from core.utils.response_formatter import success_response, error_response
 
@@ -14,12 +13,12 @@ class ForgotPasswordView(APIView):
             serializer.save()
             return success_response(
                 data={},
-                message=SUCCESS_MESSAGES['password_reset_email_sent'],
+                message="password_reset_email_sent",
                 status_code=status.HTTP_200_OK
             )
         return error_response(
             errors=serializer.errors,
-            message=ERROR_MESSAGES['validation_error'],
+            message="validation_error",
             status_code=status.HTTP_400_BAD_REQUEST
         )
 
@@ -31,11 +30,11 @@ class ResetPasswordView(APIView):
             serializer.save()
             return success_response(
                 data={},
-                message=SUCCESS_MESSAGES['password_reset_success'],
+                message="password_reset_success",
                 status_code=status.HTTP_200_OK
             )
         return error_response(
             errors=serializer.errors,
-            message=ERROR_MESSAGES['validation_error'],
+            message="validation_error",
             status_code=status.HTTP_400_BAD_REQUEST
         )

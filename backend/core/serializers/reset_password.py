@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from core.models.user import User
-from core.messages import SUCCESS_MESSAGES, ERROR_MESSAGES
 from django.utils.timezone import now
 from core.validators.password import validate_password
 
@@ -15,13 +14,13 @@ class ResetPasswordSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data['password_new'] != data['password_confirmation']:
-            raise serializers.ValidationError({"password_confirmation": ERROR_MESSAGES['password_mismatch']})
+            raise serializers.ValidationError({"password_confirmation": 'password_mismatch'})
         try:
             user = User.objects.get(reset_password_token=data['token'])
             if user.reset_password_expiry < now():
-                raise serializers.ValidationError({"token": ERROR_MESSAGES['token_expired']})
+                raise serializers.ValidationError({"token": 'token_expired'})
         except User.DoesNotExist:
-            raise serializers.ValidationError({"token": ERROR_MESSAGES['invalid_token']})
+            raise serializers.ValidationError({"token": 'invalid_token'})
         return data
 
     def save(self):
@@ -35,5 +34,5 @@ class ResetPasswordSerializer(serializers.Serializer):
         return {
             "data": {},
             "status": "success",
-            "message": SUCCESS_MESSAGES['password_reset_success']
+            "message": 'password_reset_success'
         }
