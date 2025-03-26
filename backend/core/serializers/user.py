@@ -37,7 +37,10 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         user.username = self.cleaned_data.get("username")
         user.email = self.cleaned_data.get("email")
         user.set_password(self.cleaned_data["password"])
-        try: 
+        if user.avatar == f"avatars/{settings.DEFAULT_AVATAR_PATH}":
+            backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
+            user.avatar = f"{backend_api_domain}/media/{user.avatar}"
+        try:
             with transaction.atomic():
                 user.save()
                 user.generate_activation_token()
@@ -64,4 +67,4 @@ class UserSerializer(serializers.ModelSerializer):
         backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
         if hasattr(obj, 'avatar') and obj.avatar and os.path.isfile(obj.avatar.path):
             return f"{backend_api_domain}{obj.avatar.url}"
-        return f"{backend_api_domain}/media/avatars/avatar-user-default.png"
+        return f"{backend_api_domain}/media/avatars/{settings.DEFAULT_AVATAR_PATH}"
