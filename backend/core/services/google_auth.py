@@ -1,4 +1,3 @@
-import requests
 from django.core.files.base import ContentFile
 from django.contrib.auth import get_user_model
 from allauth.account.models import EmailAddress
@@ -6,9 +5,13 @@ from rest_framework.authtoken.models import Token
 from django.db import transaction
 from core.utils.email.activation_email import send_activation_email
 from core.serializers.user import UserSerializer
-import logging
 from urllib.parse import urlparse
+from django.conf import settings
+from django.core.files.storage import default_storage
+from core.models.user import user_avatar_upload_path
+import requests
 import os
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +66,7 @@ class GoogleAuthService:
             email_address.verified = True
             email_address.save()
 
-        if avatar_url:
+        if avatar_url and (not user.avatar or os.path.basename(user.avatar.name) == os.path.basename(settings.DEFAULT_AVATAR_PATH)):
             GoogleAuthService._save_avatar(user, avatar_url)
 
         token, _ = Token.objects.get_or_create(user=user)
@@ -81,7 +84,7 @@ class GoogleAuthService:
                 user.is_active = True
                 user.save()
 
-            if avatar_url:
+            if avatar_url and (not user.avatar or os.path.basename(user.avatar.name) == os.path.basename(settings.DEFAULT_AVATAR_PATH)):
                 GoogleAuthService._save_avatar(user, avatar_url)
 
             email_address, _ = EmailAddress.objects.get_or_create(
@@ -101,9 +104,12 @@ class GoogleAuthService:
     @staticmethod
     def _save_avatar(user, avatar_url):
         try:
+            if user.avatar and os.path.basename(user.avatar.name) != os.path.basename(settings.DEFAULT_AVATAR_PATH):
+                return
             avatar_response = requests.get(avatar_url)
             if avatar_response.status_code == 200:
-                avatar_name = os.path.basename(urlparse(avatar_url).path)
-                user.avatar.save(avatar_name, ContentFile(avatar_response.content), save=True)
+                ext = os.path.basename(urlparse(avatar_url).path).split('.')[-1]
+                filename = user_avatar_upload_path(user, f"avatar.{ext}")
+                user.avatar.save(filename, ContentFile(avatar_response.content), save=True)
         except Exception as e:
             logger.warning(f"Failed to save avatar for user {user.email}: {str(e)}")

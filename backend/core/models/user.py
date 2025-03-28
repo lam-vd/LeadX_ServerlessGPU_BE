@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.utils.timezone import now
 from django.conf import settings
 import uuid
+import os
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -26,13 +27,18 @@ class UserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+def user_avatar_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f"user_{instance.id}_{uuid.uuid4().hex}.{ext}"
+    return os.path.join('avatars', now().strftime('%Y/%m'), filename)
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, blank=True, null=True, unique=False)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     billing_address = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to='avatars/', default=f"avatars/{settings.DEFAULT_AVATAR_PATH}", blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_avatar_upload_path, default=f"avatars/{settings.DEFAULT_AVATAR_PATH}", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)

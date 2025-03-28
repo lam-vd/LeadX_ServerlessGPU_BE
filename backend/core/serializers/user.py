@@ -63,5 +63,5 @@ class UserSerializer(serializers.ModelSerializer):
     def get_avatar(self, obj):
         backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
         if hasattr(obj, 'avatar') and obj.avatar and os.path.isfile(obj.avatar.path):
-            return f"{backend_api_domain}{obj.avatar.url}"
-        return f"{backend_api_domain}/media/avatars/{settings.DEFAULT_AVATAR_PATH}"
+            return f"{backend_api_domain}{settings.MEDIA_URL}{obj.avatar}"
+        return f"{backend_api_domain}{settings.MEDIA_URL}avatars/{settings.DEFAULT_AVATAR_PATH}"
