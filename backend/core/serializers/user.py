@@ -7,6 +7,7 @@ from core.utils.email.activation_email import send_activation_email
 from core.validators.username import validate_username
 from core.validators.email import validate_email
 from core.validators.password import validate_password
+from core.validators.profile_validators import validate_phone_number
 from django.conf import settings
 import os
 
@@ -21,10 +22,21 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         write_only=True,
         validators=[validate_password],
     )
+    confirm_password = serializers.CharField(
+        write_only=True,
+    )
+    phone_number = serializers.CharField(
+        validators=[validate_phone_number],
+    )
 
     class Meta:
         model = User
         fields = ("username", "email", "password")
+
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("confirm_password")
+        return data
 
     def save(self, request):
         adapter = get_adapter()
@@ -33,6 +45,7 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
 
         user.username = self.cleaned_data.get("username")
         user.email = self.cleaned_data.get("email")
+        user.phone_number = self.cleaned_data.get("phone_number")
         user.set_password(self.cleaned_data["password"])
         if user.avatar == f"avatars/{settings.DEFAULT_AVATAR_PATH}":
             backend_api_domain = os.getenv('BACKEND_API_DOMAIN', settings.BACKEND_API_DOMAIN)
@@ -52,6 +65,7 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
             "username": self.validated_data.get("username", ""),
             "email": self.validated_data.get("email", ""),
             "password": self.validated_data.get("password", ""),
+            "phone_number": self.validated_data.get("phone_number", ""),
         }
 
 # API getUserView

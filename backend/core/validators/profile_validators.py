@@ -12,7 +12,6 @@ def validate_phone_number(value):
 def validate_avatar(avatar):
     _validate_file_size(avatar)
     _validate_file_type(avatar)
-    _check_duplicate_upload(avatar)
 
     return avatar
 
@@ -26,8 +25,3 @@ def _validate_file_type(avatar):
     file_type = imghdr.what(avatar)
     if file_type not in allowed_types:
         raise ValidationError('avatar_invalid_type')
-
-def _check_duplicate_upload(avatar):
-    if avatar.name in uploaded_images:
-        raise ValidationError('avatar_already_uploaded')
-    uploaded_images.add(avatar.name)

@@ -7,7 +7,7 @@ ERROR_MESSAGES = {
     'password_too_short': "Password is too short. Please enter at least 8 characters.",
     'password_too_long': "Password is too long. Please enter no more than 30 characters.",
     'password_invalid': "The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.",
-    'email_too_long': "Email address is too long. Please enter no more than 320 characters.",
+    'email_too_long': "Email address is too long. Please enter no more than 254 characters.",
     'email_invalid': "Invalid email address. Please enter again.",
     'email_already_registered': "This email is already registered. Please use another email or log in.",
     'email_already_verified': 'Your email is already verified.',
@@ -30,7 +30,6 @@ ERROR_MESSAGES = {
     'invalid_phone_number': 'Invalid phone number format. The phone number must be between 7 and 15 digits and can optionally start with a "+".',
     'avatar_size_exceeded': 'Avatar file size must not exceed 5MB.',
     'avatar_invalid_type': 'The file you selected is not a valid image. Please upload a .jpg, .jpeg, .png or .gif file.',
-    'avatar_already_uploaded': 'This image has already been uploaded.',
 }
 
 SUCCESS_MESSAGES = {

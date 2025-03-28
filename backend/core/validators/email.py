@@ -1,8 +1,7 @@
 from rest_framework.exceptions import ValidationError
-from django.core.validators import validate_email as django_validate_email
 from core.models.user import User
 
-MAX_EMAIL_LENGTH = 320
+MAX_EMAIL_LENGTH = 254
 
 def validate_email(email):
     if not email:
