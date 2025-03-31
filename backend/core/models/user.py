@@ -44,6 +44,7 @@ class User(AbstractUser):
     activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
     reset_password_token = models.UUIDField(default=None, null=True, blank=True, unique=True)
     reset_password_expiry = models.DateTimeField(default=None, null=True, blank=True)
+    stripe_id = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
