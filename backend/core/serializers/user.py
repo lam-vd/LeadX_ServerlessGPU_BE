@@ -26,6 +26,8 @@ class CustomRegisterSerializer(serializers.ModelSerializer):
         write_only=True,
     )
     phone_number = serializers.CharField(
+        required=False,
+        allow_blank=True,
         validators=[validate_phone_number],
     )
 
