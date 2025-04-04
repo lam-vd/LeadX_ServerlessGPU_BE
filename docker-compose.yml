@@ -13,6 +13,9 @@ services:
       - ./backend/:/srv/app
       - static:/srv/app/static
       - media:/srv/app/media
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
     depends_on:
       - db
   db:

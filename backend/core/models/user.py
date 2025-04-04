@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.utils.timezone import now
 import uuid
 import os
+import hashlib
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -31,6 +32,9 @@ def user_avatar_upload_path(instance, filename):
     filename = f"user_{instance.id}_{uuid.uuid4().hex}.{ext}"
     return os.path.join('avatars', now().strftime('%Y/%m'), filename)
 
+def hash_user_id(user_id):
+    return hashlib.sha256(str(user_id).encode()).hexdigest()[:10]
+  
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, blank=True, null=True, unique=False)
