@@ -4,9 +4,7 @@ from core.models.task import Task
 from core.serializers.task import TaskSerializer
 from django.db.models import Count, Q
 from core.swagger.task_list_swagger import task_list_swagger
-import logging
-
-logger = logging.getLogger(__name__)
+from core.utils.response_formatter import success_response
 
 class TaskListView(generics.ListAPIView):
     serializer_class = TaskSerializer
@@ -20,3 +18,17 @@ class TaskListView(generics.ListAPIView):
         ).annotate(
             run_count=Count('job', filter=Q(job__deleted_at__isnull=True))
         ).order_by('-created_at')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        return self.format_paginated_response(page) if page else self.format_full_response(queryset)
+
+    def format_paginated_response(self, page):
+        serializer = self.get_serializer(page, many=True)
+        paginated_data = self.get_paginated_response(serializer.data).data
+        return success_response(paginated_data, "task_list_retrieved_successfully", 200)
+
+    def format_full_response(self, queryset):
+        serializer = self.get_serializer(queryset, many=True)
+        return success_response(serializer.data, "task_list_retrieved_successfully", 200)
