@@ -74,6 +74,66 @@ task_list_swagger = swagger_auto_schema(
                     'message': openapi.Schema(
                         type=openapi.TYPE_STRING,
                         description="Response message"
+                    ),
+                    'errors': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description="Error details (if any)"
+                    )
+                }
+            )
+        ),
+        404: openapi.Response(
+            description="Invalid page number",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'data': openapi.Schema(
+                        type=openapi.TYPE_OBJECT,
+                        description="Empty object",
+                        default={}
+                    ),
+                    'status': openapi.Schema(
+                        type=openapi.TYPE_INTEGER,
+                        description="HTTP status code",
+                        example=404
+                    ),
+                    'message': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description="Error message",
+                        example="Invalid page number"
+                    ),
+                    'errors': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description="Details about the error",
+                        example="Invalid page."
+                    )
+                }
+            )
+        ),
+        500: openapi.Response(
+            description="Unexpected error",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'data': openapi.Schema(
+                        type=openapi.TYPE_OBJECT,
+                        description="Empty object",
+                        default={}
+                    ),
+                    'status': openapi.Schema(
+                        type=openapi.TYPE_INTEGER,
+                        description="HTTP status code",
+                        example=500
+                    ),
+                    'message': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description="Error message",
+                        example="An unexpected error occurred"
+                    ),
+                    'errors': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description="Details about the error",
+                        example="Error details here"
                     )
                 }
             )
