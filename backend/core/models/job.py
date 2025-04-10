@@ -4,7 +4,7 @@ from core.models.gpu_type import GpuType
 
 class Job(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    job_id = models.CharField(max_length=255)
+    job_id = models.CharField(max_length=255, unique=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     status = models.SmallIntegerField()

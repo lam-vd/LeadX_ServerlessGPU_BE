@@ -32,6 +32,8 @@ from core.views.profile import UpdateProfileView
 from core.views.change_password import ChangePasswordView
 from core.views.task.create_task import CreateTaskView
 from core.views.task.list_task import TaskListView
+from core.views.job.create_job import CreateJobView
+from core.views.job.status_job import JobStatusView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -64,6 +66,8 @@ urlpatterns = [
     path('api/auth/change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('api/task/', CreateTaskView.as_view(), name='create_task'),
     path('api/tasks/', TaskListView.as_view(), name='task-list'),
+    path('api/job/create/', CreateJobView.as_view(), name='create_job'),
+    path('api/job/status/', JobStatusView.as_view(), name='job_status'),
 ]
 
 if settings.DEBUG:
