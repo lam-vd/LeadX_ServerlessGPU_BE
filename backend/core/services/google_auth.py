@@ -69,8 +69,7 @@ class GoogleAuthService:
             GoogleAuthService._save_avatar(user, avatar_url)
 
         token, _ = Token.objects.get_or_create(user=user)
-        user_data = UserSerializer(user).data
-        return token.key, user_data
+        return token.key, user
 
     @staticmethod
     def _create_new_user(email, name, avatar_url):
