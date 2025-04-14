@@ -24,11 +24,22 @@ class TaskListView(generics.ListAPIView):
         try:
             queryset = self.get_queryset()
             page = self.paginate_queryset(queryset)
+            if not queryset.exists():
+                return self.format_empty_response()
             return self.format_paginated_response(page) if page else self.format_full_response(queryset)
         except NotFound as e:
             return error_response(errors=str(e), message="invalid_page_number", status_code=404)
         except Exception as e:
             return error_response(errors=str(e), message="an_unexpected_error_occurred", status_code=500)
+
+    def format_empty_response(self):
+        empty_data = {
+            "count": 0,
+            "next": None,
+            "previous": None,
+            "results": []
+        }
+        return success_response(data=empty_data, message="task_list_retrieved_successfully", status_code=200)
 
     def format_paginated_response(self, page):
         serializer = self.get_serializer(page, many=True)
