@@ -35,6 +35,9 @@ from core.views.task.list_task import TaskListView
 from core.views.task.delete_task import DeleteTaskView
 from core.views.task.edit_task import EditTaskView
 from core.views.task.show_task import GetTaskDetailView
+from core.views.job.create_job import CreateJobView
+from core.views.job.get_job_status import GetJobStatusView
+from core.views.job.delete_job import DeleteJobView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -70,6 +73,9 @@ urlpatterns = [
     path('api/task/<int:task_id>/delete/', DeleteTaskView.as_view(), name='delete_task'),
     path('api/task/<int:task_id>/edit/', EditTaskView.as_view(), name='edit_task'),
     path('api/task/<int:task_id>/', GetTaskDetailView.as_view(), name='get_task_detail'),
+    path('api/job/create/', CreateJobView.as_view(), name='create-job'),
+    path('api/job/status/<str:job_id>/', GetJobStatusView.as_view(), name='get-job-status'),
+    path('api/job/delete/', DeleteJobView.as_view(), name='delete-job'),
 ]
 
 if settings.DEBUG:
