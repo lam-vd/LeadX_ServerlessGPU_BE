@@ -35,9 +35,9 @@ from core.views.task.list_task import TaskListView
 from core.views.task.delete_task import DeleteTaskView
 from core.views.task.edit_task import EditTaskView
 from core.views.task.show_task import GetTaskDetailView
-from core.views.job.create_job import CreateJobView
 from core.views.job.get_job_status import GetJobStatusView
 from core.views.job.delete_job import DeleteJobView
+from core.views.job.create_job import CreateJobView
 
 schema_view = get_schema_view(
     openapi.Info(
