@@ -36,7 +36,7 @@ from core.views.task.delete_task import DeleteTaskView
 from core.views.task.edit_task import EditTaskView
 from core.views.task.show_task import GetTaskDetailView
 from core.views.job.get_job_status import GetJobStatusView
-from core.views.job.delete_job import DeleteJobView
+from core.views.job.stop_job import StopJobView
 from core.views.job.create_job import CreateJobView
 from core.views.job.task_job_list import TaskJobListView
 from core.views.gpu.gpu_type_list import GpuTypeListView
@@ -77,7 +77,7 @@ urlpatterns = [
     path('api/task/<int:task_id>/', GetTaskDetailView.as_view(), name='get_task_detail'),
     path('api/job/create/', CreateJobView.as_view(), name='create-job'),
     path('api/job/status/<str:job_id>/', GetJobStatusView.as_view(), name='get-job-status'),
-    path('api/job/delete/', DeleteJobView.as_view(), name='delete-job'),
+    path('api/job/stop/', StopJobView.as_view(), name='delete-job'),
     path('api/task-job-list/', TaskJobListView.as_view(), name='task-job-list'),
     path('api/gpu-types/', GpuTypeListView.as_view(), name='gpu-type-list'),
 ]
