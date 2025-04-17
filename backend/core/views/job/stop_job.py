@@ -4,13 +4,13 @@ from rest_framework import status
 from core.services.gpu_job_service import GPUJobService
 from core.models.job import Job
 from core.utils.response_formatter import success_response, error_response
-from core.swagger.delete_job_swagger import delete_job_swagger
+from core.swagger.stop_job_swagger import stop_job_swagger
 from django.utils import timezone
 
-class DeleteJobView(APIView):
+class StopJobView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @delete_job_swagger
+    @stop_job_swagger
     def post(self, request):
         job_id = request.data.get("job_id")
         if not job_id:
@@ -21,14 +21,22 @@ class DeleteJobView(APIView):
             )
 
         try:
-            job = Job.objects.get(job_id=job_id)
+            job = Job.objects.get(job_id=job_id, deleted_at__isnull=True)
+            if job.status not in [Job.Status.PENDING, Job.Status.RUNNING]:
+                return error_response(
+                    errors={"job_id": "Job cannot be stopped in its current state."},
+                    message="invalid_job_status",
+                    status_code=status.HTTP_400_BAD_REQUEST
+                )
             GPUJobService.delete_job(job_id)
-            job.deleted_at = timezone.now()
+            job.end_time = timezone.now()
+            job.status = Job.Status.STOPPED
+            job.total_time = (job.end_time - job.start_time).total_seconds()
             job.save()
 
             return success_response(
                 data={},
-                message="job_deleted_successfully",
+                message="job_stopped_successfully",
                 status_code=status.HTTP_200_OK
             )
         except Job.DoesNotExist:
@@ -40,6 +48,6 @@ class DeleteJobView(APIView):
         except Exception as e:
             return error_response(
                 errors={"error": str(e)},
-                message="failed_to_delete_job",
+                message="failed_to_stopped_job",
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
