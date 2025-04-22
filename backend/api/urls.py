@@ -41,6 +41,7 @@ from core.views.job.create_job import CreateJobView
 from core.views.job.task_job_list import TaskJobListView
 from core.views.gpu.gpu_type_list import GpuTypeListView
 from core.views.job.show_job import JobDetailView
+from core.views.payment.stripe_payment import AddCardView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -82,6 +83,7 @@ urlpatterns = [
     path('api/task-job-list/', TaskJobListView.as_view(), name='task-job-list'),
     path('api/gpu-types/', GpuTypeListView.as_view(), name='gpu-type-list'),
     path('api/job/<str:job_id>/', JobDetailView.as_view(), name='job-detail'),
+    path("api/payment/add-card/", AddCardView.as_view(), name="add_card"),
 ]
 
 if settings.DEBUG:
