@@ -29,6 +29,14 @@ add_card_responses = {
                 "error": "Payment method ID is required."
             }
         }
+    ),
+    500: openapi.Response(
+        description="Unexpected error",
+        examples={
+            "application/json": {
+                "error": "An unexpected error occurred: <error details>"
+            }
+        }
     )
 }
 
