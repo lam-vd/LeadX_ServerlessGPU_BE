@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
 import os
-
+import stripe
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -235,3 +235,8 @@ DOCKER_REGISTRY_URL = os.environ.get('DOCKER_REGISTRY_URL')
 DOCKER_REGISTRY_USERNAME = os.environ.get('DOCKER_REGISTRY_USERNAME')
 DOCKER_REGISTRY_PASSWORD = os.environ.get('DOCKER_REGISTRY_PASSWORD')
 GPU_SERVERLESS_API_BASE_URL = os.environ.get('GPU_SERVERLESS_API_BASE_URL')
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+stripe.api_key = STRIPE_SECRET_KEY
