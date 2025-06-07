@@ -1,0 +1,37 @@
+from rest_framework import serializers
+from core.models.user import User
+from django.utils.timezone import now
+from core.validators.password import validate_password
+
+class ResetPasswordSerializer(serializers.Serializer):
+    token = serializers.UUIDField(required=True)
+    password_new = serializers.CharField(
+        write_only=True,
+        validators=[validate_password],
+    )
+    password_confirmation = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        if data['password_new'] != data['password_confirmation']:
+            raise serializers.ValidationError({"password_confirmation": 'password_mismatch'})
+        try:
+            user = User.objects.get(reset_password_token=data['token'])
+            if user.reset_password_expiry < now():
+                raise serializers.ValidationError({"token": 'token_expired'})
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"token": 'invalid_token'})
+        return data
+
+    def save(self):
+        token = self.validated_data['token']
+        password_new = self.validated_data['password_new']
+        user = User.objects.get(reset_password_token=token)
+        user.set_password(password_new)
+        user.reset_password_token = None
+        user.reset_password_expiry = None
+        user.save()
+        return {
+            "data": {},
+            "status": "success",
+            "message": 'password_reset_success'
+        }

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
 import os
-
+import stripe
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -164,10 +164,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ),
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -193,9 +195,11 @@ USE_TZ = True
 
 STATIC_URL = "/api_static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_URL = "/api_media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+DEFAULT_AVATAR_PATH = "avatar-user-default.png"
+DEFAULT_PAGE_SIZE = 10
+MAX_PAGE_SIZE = 100
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_SECRET")
@@ -213,12 +217,26 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+APPEND_SLASH = False
+
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get("EMAIL_HOST", default='smtp.gmail.com')
 EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True)
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", default="False") == "True"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@example.com")
 REACT_APP_API_URL=os.environ.get("REACT_APP_API_URL")
+BACKEND_API_DOMAIN=os.environ.get("BACKEND_API_DOMAIN")
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DOCKER_REGISTRY_URL = os.environ.get('DOCKER_REGISTRY_URL')
+DOCKER_REGISTRY_USERNAME = os.environ.get('DOCKER_REGISTRY_USERNAME')
+DOCKER_REGISTRY_PASSWORD = os.environ.get('DOCKER_REGISTRY_PASSWORD')
+GPU_SERVERLESS_API_BASE_URL = os.environ.get('GPU_SERVERLESS_API_BASE_URL')
+
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+stripe.api_key = STRIPE_SECRET_KEY
