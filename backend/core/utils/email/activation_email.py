@@ -1,11 +1,13 @@
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+from urllib.parse import urljoin
 
 def send_activation_email(user):
     subject = "Activate Your Account"
-    url = settings.REACT_APP_API_URL
-    activation_url = f"{url}/auth/activate/?token={user.activation_token}"
+    base_url = settings.REACT_APP_API_URL
+    activation_path = f"/auth/activate/?token={user.activation_token}"
+    activation_url = urljoin(base_url, activation_path)
 
     html_message = render_to_string("activation_email.html", {
         "username": user.username,

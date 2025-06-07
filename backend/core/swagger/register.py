@@ -1,7 +1,6 @@
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from core.messages import ERROR_MESSAGES, SUCCESS_MESSAGES
-from core.serializers.user import CustomRegisterSerializer
 from core.validators.username import MAX_USERNAME_LENGTH
 from core.validators.email import MAX_EMAIL_LENGTH
 from core.validators.password import MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH
@@ -40,20 +39,25 @@ register_swagger_schema = swagger_auto_schema(
             description=SUCCESS_MESSAGES['user_registered_successfully'],
             examples={
                 "application/json": {
+                    "data": {},
                     "status": "success",
-                    "message": SUCCESS_MESSAGES['user_registered_successfully'],
-                    "redirect_to": "/login"
+                    "message": SUCCESS_MESSAGES['user_registered_successfully']
                 }
             },
         ),
         400: openapi.Response(
-            description=ERROR_MESSAGES['validation_error'],
+            description=ERROR_MESSAGES['registration_failed'],
             examples={
                 "application/json": {
+                    "data": {
+                        "email": ["This email is already taken."],
+                        "password": ["Ensure this field has at least 8 characters."]
+                    },
                     "status": "error",
-                    "message": ERROR_MESSAGES['validation_error'],
+                    "message": ERROR_MESSAGES['registration_failed'],
                     "errors": {
-                        "email": ["This email is already taken."]
+                        "email": ["This email is already taken."],
+                        "password": ["Ensure this field has at least 8 characters."]
                     }
                 }
             },
